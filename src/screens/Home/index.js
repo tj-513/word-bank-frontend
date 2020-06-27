@@ -9,6 +9,7 @@ import {
 import styles from './styles';
 import { FlatList } from 'react-native-gesture-handler';
 
+
 export default function Home() {
   const [words, setWords] = useState([]);
   const [currentWord, setCurrentWord] = useState(null);
@@ -45,7 +46,7 @@ export default function Home() {
 
       <Button
         onPress={() => {
-          setWords([...words, currentWord]);
+          currentWord && setWords([...words, currentWord]);
           setCurrentWord(null);
           wordInputRef.current.clear();
         }}
