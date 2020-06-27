@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, TextInput, View, Text } from 'react-native';
+import { Alert, Button, TextInput, View, Text, Linking } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import styles from './styles';
@@ -8,6 +8,18 @@ const wordSchema = yup.object({
   word: yup.string().required(),
   definition: yup.string().required(),
 });
+
+const handleOnPressLookupButton = async (props) => {
+  const url = `https://www.dictionary.com/browse/${props.values.word}`;
+  const canOpen = Linking.canOpenURL(url);
+  if (canOpen) {
+    try {
+      await Linking.openURL(url);
+    } catch (e) {
+      Alert.alert('Error', e.message);
+    }
+  }
+};
 
 export default function WordInputForm({ onSubmitWord }) {
   const handleSubmitWord = (values, actions) => {
@@ -30,13 +42,16 @@ export default function WordInputForm({ onSubmitWord }) {
       >
         {(props) => (
           <View>
-            <TextInput
-              placeholder='Word here'
-              style={styles.textInput}
-              onChangeText={props.handleChange('word')}
-              value={props.values.word}
-              onBlur={props.handleBlur('word')}
-            />
+            <View style={styles.wordInput}>
+              <TextInput
+                placeholder='Word here'
+                style={{...styles.textInput, ...styles.wordInput}}
+                onChangeText={props.handleChange('word')}
+                value={props.values.word}
+                onBlur={props.handleBlur('word')}
+              />
+              <Button title='Look Up' style={styles.lookupButton} onPress={()=>handleOnPressLookupButton(props)} />
+            </View>
             {props.touched.word && props.errors.word && (
               <Text>{props.errors.word}</Text>
             )}
@@ -48,7 +63,6 @@ export default function WordInputForm({ onSubmitWord }) {
               onChangeText={props.handleChange('definition')}
               value={props.values.definition}
               onBlur={props.handleBlur('definition')}
-
             />
             {props.touched.definition && props.errors.definition && (
               <Text>{props.errors.definition}</Text>
