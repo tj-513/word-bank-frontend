@@ -1,39 +1,63 @@
 import React from 'react';
-import {Button, TextInput, View} from 'react-native';
-import {Formik} from 'formik';
+import { Button, TextInput, View, Text } from 'react-native';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 import styles from './styles';
 
-export default function WordInputForm() {
+const wordSchema = yup.object({
+  word: yup.string().required(),
+  definition: yup.string().required(),
+});
 
-    return (
-        <View>
-            <Formik 
-                initialValues={{word:'', definition:''}}
-                onSubmit={(values)=>{
-                    console.log(values);
-                }}
-            >
-                {(props) => (
-                    <View>
-                        <TextInput 
-                            placeholder="Word here"
-                            style={styles.textInput}
-                            onChangeText={props.handleChange('word')}
-                            value={props.values.word}
-                            />
-                        <TextInput 
-                            multiline
-                            placeholder="Definition here"
-                            style={styles.textInput}
-                            onChangeText={props.handleChange('definition')}
-                            value={props.values.definition}
-                        />
+export default function WordInputForm({ onSubmitWord }) {
+  const handleSubmitWord = (values, actions) => {
+    const { word, definition } = values;
 
-                        <Button title="Add word" onPress={props.handleSubmit} />
-                    </View>
-                )}
+    if (!(word && definition)) {
+      return;
+    }
 
-            </Formik>
-        </View>
-    )
+    onSubmitWord(values);
+    actions.resetForm();
+  };
+
+  return (
+    <View style={styles.wordInputFormContainer}>
+      <Formik
+        initialValues={{ word: '', definition: '' }}
+        onSubmit={handleSubmitWord}
+        validationSchema={wordSchema}
+      >
+        {(props) => (
+          <View>
+            <TextInput
+              placeholder='Word here'
+              style={styles.textInput}
+              onChangeText={props.handleChange('word')}
+              value={props.values.word}
+              onBlur={props.handleBlur('word')}
+            />
+            {props.touched.word && props.errors.word && (
+              <Text>{props.errors.word}</Text>
+            )}
+
+            <TextInput
+              multiline
+              placeholder='Definition here'
+              style={styles.textInput}
+              onChangeText={props.handleChange('definition')}
+              value={props.values.definition}
+              onBlur={props.handleBlur('definition')}
+
+            />
+            {props.touched.definition && props.errors.definition && (
+              <Text>{props.errors.definition}</Text>
+            )}
+
+            <Button title='Add word' onPress={props.handleSubmit} />
+          </View>
+        )}
+      </Formik>
+    </View>
+  );
 }

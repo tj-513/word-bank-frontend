@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         marginTop:4,
         marginBottom:4,
-    }
+        maxWidth: '100%'
+    },
   });
 
   export default styles;
