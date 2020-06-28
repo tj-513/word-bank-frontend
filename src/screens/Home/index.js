@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -6,16 +7,16 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import styles from './styles';
 import { FlatList } from 'react-native-gesture-handler';
+import styles from './styles';
 import WordInputForm from './components/WordInputForm';
+import actions from './actions/actions';
+import { connect } from 'react-redux';
 
-export default function Home() {
-  const [words, setWords] = useState([]);
-
+export function Home({ currentDefinitions, setCurrentDefinitions }) {
   const handleOnSubmitWord = (values) => {
-    const { word } = values;
-    setWords((currentWords) => [word, ...currentWords]);
+    const { word, definition } = values;
+    setCurrentDefinitions([{ word, definition }, ...currentDefinitions]);
   };
 
   return (
@@ -35,20 +36,49 @@ export default function Home() {
         <WordInputForm onSubmitWord={handleOnSubmitWord} />
         <Text>Added Words</Text>
         <FlatList
-          data={words || []}
+          data={currentDefinitions || []}
           renderItem={({ item }) => (
-            <Text
-              style={{
-                padding: 10,
-                fontSize: 18,
-                height: 44,
-              }}
-            >
-              {item}
-            </Text>
+            <View>
+              <Text
+                style={{
+                  fontSize: 18,
+                }}
+              >
+                {item.word}
+              </Text>
+              <Text 
+                style={{
+                  fontSize: 12,
+                  paddingLeft:10
+                }}
+              >
+                {item.definition}
+              </Text>
+            </View>
           )}
         ></FlatList>
       </View>
     </TouchableWithoutFeedback>
   );
 }
+
+Home.propTypes = {
+  currentDefinitions: PropTypes.array,
+};
+
+Home.defaultProps = {
+  currentDefinitions: [],
+};
+
+const mapStateToProps = (state) => ({
+  currentDefinitions: state.home.currentDefinitions,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmitDefinition: (word, definition) =>
+    dispatch(actions.onSubmitDefinition(word, definition)),
+  setCurrentDefinitions: (definitions) =>
+    dispatch(actions.setCurrentDefinitions(definitions)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
