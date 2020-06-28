@@ -64,3 +64,6 @@ web-build/
 
 # Profiler files
 *.hprof
+
+# VS code config
+.vscode/

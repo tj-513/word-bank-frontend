@@ -21,7 +21,7 @@ const handleOnPressLookupButton = async (props) => {
   }
 };
 
-export default function WordInputForm({ onSubmitWord }) {
+export default function WordInputForm({ onSubmitWord, isDefinitionInputFormLoading }) {
   const handleSubmitWord = (values, actions) => {
     const { word, definition } = values;
 
@@ -68,7 +68,7 @@ export default function WordInputForm({ onSubmitWord }) {
               <Text>{props.errors.definition}</Text>
             )}
 
-            <Button title='Add word' onPress={props.handleSubmit} />
+            <Button title='Add word' disabled={isDefinitionInputFormLoading} onPress={props.handleSubmit} />
           </View>
         )}
       </Formik>

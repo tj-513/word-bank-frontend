@@ -10,13 +10,18 @@ import {
 import { FlatList } from 'react-native-gesture-handler';
 import styles from './styles';
 import WordInputForm from './components/WordInputForm';
-import actions from './actions/actions';
+import * as actions from './actions/actions';
 import { connect } from 'react-redux';
 
-export function Home({ currentDefinitions, setCurrentDefinitions }) {
+export function Home({
+  currentDefinitions,
+  setCurrentDefinitions,
+  isDefinitionInputFormLoading,
+  onSubmitDefinition,
+}) {
   const handleOnSubmitWord = (values) => {
     const { word, definition } = values;
-    setCurrentDefinitions([{ word, definition }, ...currentDefinitions]);
+    onSubmitDefinition(word,definition);
   };
 
   return (
@@ -33,7 +38,10 @@ export function Home({ currentDefinitions, setCurrentDefinitions }) {
           />
         </View>
 
-        <WordInputForm onSubmitWord={handleOnSubmitWord} />
+        <WordInputForm
+          onSubmitWord={handleOnSubmitWord}
+          isDefinitionInputFormLoading={isDefinitionInputFormLoading}
+        />
         <Text>Added Words</Text>
         <FlatList
           data={currentDefinitions || []}
@@ -46,10 +54,10 @@ export function Home({ currentDefinitions, setCurrentDefinitions }) {
               >
                 {item.word}
               </Text>
-              <Text 
+              <Text
                 style={{
                   fontSize: 12,
-                  paddingLeft:10
+                  paddingLeft: 10,
                 }}
               >
                 {item.definition}
@@ -72,13 +80,12 @@ Home.defaultProps = {
 
 const mapStateToProps = (state) => ({
   currentDefinitions: state.home.currentDefinitions,
+  isDefinitionInputFormLoading: state.home.isDefinitionInputFormLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmitDefinition: (word, definition) =>
     dispatch(actions.onSubmitDefinition(word, definition)),
-  setCurrentDefinitions: (definitions) =>
-    dispatch(actions.setCurrentDefinitions(definitions)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
