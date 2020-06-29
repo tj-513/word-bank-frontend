@@ -16,7 +16,7 @@ export const setCurrentDefinitions = (currentDefinitions) => ({
 
 export function onSubmitDefinition(word,definition){
     return async (dispatch, getState) =>{
-        const currentDefinitions = get(getState(), 'currentDefinitions', []);
+        const currentDefinitions = get(getState(), 'home.currentDefinitions', []);
         dispatch(setIsDefinitionInputFormLoading(true));
         await delay(2000);
         dispatch(setCurrentDefinitions([{word,definition}, ...currentDefinitions]));

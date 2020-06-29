@@ -5,7 +5,6 @@ const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   homeContainer: {
       flex: 1,
-      paddingTop: 22,
       paddingLeft: width*0.05,
       paddingRight: width*0.05,
       width

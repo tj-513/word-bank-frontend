@@ -15,13 +15,12 @@ import { connect } from 'react-redux';
 
 export function Home({
   currentDefinitions,
-  setCurrentDefinitions,
   isDefinitionInputFormLoading,
   onSubmitDefinition,
 }) {
   const handleOnSubmitWord = (values) => {
     const { word, definition } = values;
-    onSubmitDefinition(word,definition);
+    onSubmitDefinition(word, definition);
   };
 
   return (
@@ -42,7 +41,7 @@ export function Home({
           onSubmitWord={handleOnSubmitWord}
           isDefinitionInputFormLoading={isDefinitionInputFormLoading}
         />
-        <Text>Added Words</Text>
+        <Text>Recently added words</Text>
         <FlatList
           data={currentDefinitions || []}
           renderItem={({ item }) => (
