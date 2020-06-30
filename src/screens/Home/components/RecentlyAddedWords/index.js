@@ -25,7 +25,7 @@ const RecentlyAddedWords = ({ currentDefinitions }) => {
   );
 };
 
-RecentlyAddedWords.PropTypes = {
+RecentlyAddedWords.propTypes = {
   currentDefinitions: PropTypes.array,
 };
 
