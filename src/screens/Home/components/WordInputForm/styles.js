@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     marginBottom: 4
   },
+  errorText:{
+    color:'red',
+    fontSize:10
+  }
 });
 
 export default styles;

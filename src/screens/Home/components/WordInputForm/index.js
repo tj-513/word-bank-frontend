@@ -66,7 +66,7 @@ export default function WordInputForm({
               </View>
             </View>
             {props.touched.word && props.errors.word && (
-              <Text>{props.errors.word}</Text>
+              <Text style={styles.errorText}>{props.errors.word}</Text>
             )}
 
             <TextInput
@@ -78,7 +78,7 @@ export default function WordInputForm({
               onBlur={props.handleBlur('definition')}
             />
             {props.touched.definition && props.errors.definition && (
-              <Text>{props.errors.definition}</Text>
+              <Text style={styles.errorText}>{props.errors.definition}</Text>
             )}
 
             <TextInput
@@ -90,12 +90,12 @@ export default function WordInputForm({
               onBlur={props.handleBlur('sampleSentence')}
             />
             {props.touched.sampleSentence && props.errors.sampleSentence && (
-              <Text>{props.errors.sampleSentence}</Text>
+              <Text style={styles.errorText}>{props.errors.sampleSentence}</Text>
             )}
 
             <Button
               title='Add word'
-              disabled={isDefinitionInputFormLoading }
+              disabled={isDefinitionInputFormLoading || !props.isValid}
               onPress={props.handleSubmit}
             />
           </View>
