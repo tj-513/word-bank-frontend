@@ -1,15 +1,35 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    textInput:{
-        padding: 4,
-        borderRadius: 3,
-        borderWidth: 1,
-        borderColor: 'gray',
-        marginTop:4,
-        marginBottom:4,
-        maxWidth: '100%'
-    },
-  });
+  wordInput: {
+    flexDirection: 'row',
+    maxWidth: '100%',
+    marginBottom: 4,
+    marginTop: 4,
+  },
+  wordTextInput: {
+    padding: 4,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: 'gray',
+    marginRight: 2,
+    flex: 5,
+  },
+  lookupButton: {
+    alignSelf: 'center',
+  },
+  lookupButtonContainer: {
+    flex: 3,
+    alignSelf: 'flex-end',
+    textAlign: 'center',
+  },
+  definitionTextInput: {
+    padding: 4,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: 'gray',
+    marginBottom: 4
+  },
+});
 
-  export default styles;
+export default styles;

@@ -16,7 +16,9 @@ const RecentlyAddedWords = ({ currentDefinitions }) => {
             <Text style={styles.word}>{item.word}</Text>
             <Text style={styles.definition}>{item.definition}</Text>
             {item.sampleSentence && (
-              <Text style={styles.sampleSentence}>{item.sampleSentence}</Text>
+              <Text style={styles.sampleSentence}>
+                Eg:- {item.sampleSentence}
+              </Text>
             )}
           </View>
         )}

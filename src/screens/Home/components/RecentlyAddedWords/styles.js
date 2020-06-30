@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   definition:{
-    fontSize: 12,
+    fontSize: 14,
     paddingLeft: 10,
   },
   sampleSentence:{

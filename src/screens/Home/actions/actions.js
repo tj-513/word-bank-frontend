@@ -14,12 +14,12 @@ export const setCurrentDefinitions = (currentDefinitions) => ({
   },
 });
 
-export function onSubmitDefinition(word, definition) {
+export function onSubmitDefinition(word, definition, sampleSentence) {
   return async (dispatch, getState) => {
     const currentDefinitions = get(getState(), 'home.currentDefinitions', []);
     dispatch(setIsDefinitionInputFormLoading(true));
 
-    const response = await wordServices.addWord(word, definition);
+    const response = await wordServices.addWord(word, definition, sampleSentence);
     // const response = {}
     if (response.error) {
       ToastAndroid.show('Adding word failed, please try again', 500);
@@ -28,7 +28,7 @@ export function onSubmitDefinition(word, definition) {
     }
 
     dispatch(
-      setCurrentDefinitions([{ word, definition }, ...currentDefinitions])
+      setCurrentDefinitions([response.data, ...currentDefinitions])
     );
     dispatch(setIsDefinitionInputFormLoading(false));
   };

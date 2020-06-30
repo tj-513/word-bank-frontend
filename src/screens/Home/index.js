@@ -20,8 +20,8 @@ export function Home({
   onSubmitDefinition,
 }) {
   const handleOnSubmitWord = (values) => {
-    const { word, definition } = values;
-    onSubmitDefinition(word, definition);
+    const { word, definition, sampleSentence } = values;
+    onSubmitDefinition(word, definition, sampleSentence);
   };
 
   return (
@@ -53,8 +53,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmitDefinition: (word, definition) =>
-    dispatch(actions.onSubmitDefinition(word, definition)),
+  onSubmitDefinition: (word, definition, sampleSentence) =>
+    dispatch(actions.onSubmitDefinition(word, definition, sampleSentence)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
