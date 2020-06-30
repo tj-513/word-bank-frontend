@@ -5,7 +5,7 @@ import styles from './styles';
 
 const RecentlyAddedWords = ({ currentDefinitions }) => {
   return (
-    <View>
+    <View style={{flex:1}}>
       {currentDefinitions.length > 0 && (
         <Text style={styles.title}>Recently added words</Text>
       )}
