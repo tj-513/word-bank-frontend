@@ -7,10 +7,9 @@ const HomeHeader = () => (
       Word Bank
     </Text>
     <View>
-      <Text style={{ textAlign: 'center' }}>Your repo for words</Text>
       <Image
         source={{ uri: 'https://reactnative.dev/docs/assets/p_cat2.png' }}
-        style={{ width: 100, height: 100, alignSelf: 'center' }}
+        style={{ width: 75, height: 75, alignSelf: 'center' }}
       />
     </View>
   </View>

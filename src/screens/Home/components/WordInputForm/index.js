@@ -14,7 +14,7 @@ const wordSchema = yup.object({
 const handleOnPressLookupButton = async (props) => {
   const url = `https://www.dictionary.com/browse/${props.values.word}`;
   const canOpen = Linking.canOpenURL(url);
-  if (canOpen) {
+  if (canOpen && props.values.word) {
     try {
       await Linking.openURL(url);
     } catch (e) {
@@ -95,7 +95,7 @@ export default function WordInputForm({
 
             <Button
               title='Add word'
-              disabled={isDefinitionInputFormLoading}
+              disabled={isDefinitionInputFormLoading }
               onPress={props.handleSubmit}
             />
           </View>

@@ -13,6 +13,7 @@ import RecentlyAddedWords from './components/RecentlyAddedWords';
 import HomeHeader from './components/HomeHeader';
 import * as actions from './actions/actions';
 import { connect } from 'react-redux';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export function Home({
   currentDefinitions,
@@ -20,22 +21,24 @@ export function Home({
   onSubmitDefinition,
 }) {
   const handleOnSubmitWord = (values) => {
-    const { word, definition, sampleSentence } = values;
-    onSubmitDefinition(word, definition, sampleSentence);
+    const { word, definition } = values;
+    onSubmitDefinition(word, definition);
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.homeContainer}>
-        <HomeHeader />
+    <View style={styles.homeContainer}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <HomeHeader />
 
-        <WordInputForm
-          onSubmitWord={handleOnSubmitWord}
-          isDefinitionInputFormLoading={isDefinitionInputFormLoading}
-        />
-        <RecentlyAddedWords currentDefinitions={currentDefinitions} />
-      </View>
-    </TouchableWithoutFeedback>
+          <WordInputForm
+            onSubmitWord={handleOnSubmitWord}
+            isDefinitionInputFormLoading={isDefinitionInputFormLoading}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+      <RecentlyAddedWords currentDefinitions={currentDefinitions} />
+    </View>
   );
 }
 
@@ -53,8 +56,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmitDefinition: (word, definition, sampleSentence) =>
-    dispatch(actions.onSubmitDefinition(word, definition, sampleSentence)),
+  onSubmitDefinition: (word, definition) =>
+    dispatch(actions.onSubmitDefinition(word, definition)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
