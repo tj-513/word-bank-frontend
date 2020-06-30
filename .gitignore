@@ -67,3 +67,6 @@ web-build/
 
 # VS code config
 .vscode/
+
+# env variables
+.env

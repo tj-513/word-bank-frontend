@@ -1,32 +1,44 @@
 import get from 'lodash/get';
-import actionCreator from '../../../utils/actionCreator';
+import { ToastAndroid } from 'react-native';
 import {
-    SET_CURRENT_DEFINITIONS, ON_SUBMIT_DEFINITION, SET_IS_DEFINITION_INPUT_FORM_LOADING,
+  SET_CURRENT_DEFINITIONS,
+  SET_IS_DEFINITION_INPUT_FORM_LOADING,
 } from './actionTypes';
 
-const homeActionCreator = actionCreator('home');
-const delay = ms => new Promise(res => setTimeout(res, ms));
+import * as wordServices from '../../../services/wordService';
 
 export const setCurrentDefinitions = (currentDefinitions) => ({
-    type: SET_CURRENT_DEFINITIONS,
-    payload: {
-        currentDefinitions
-    }
+  type: SET_CURRENT_DEFINITIONS,
+  payload: {
+    currentDefinitions,
+  },
 });
 
-export function onSubmitDefinition(word,definition){
-    return async (dispatch, getState) =>{
-        const currentDefinitions = get(getState(), 'home.currentDefinitions', []);
-        dispatch(setIsDefinitionInputFormLoading(true));
-        await delay(2000);
-        dispatch(setCurrentDefinitions([{word,definition}, ...currentDefinitions]));
-        dispatch(setIsDefinitionInputFormLoading(false));
-    };
+export function onSubmitDefinition(word, definition) {
+  return async (dispatch, getState) => {
+    const currentDefinitions = get(getState(), 'home.currentDefinitions', []);
+    dispatch(setIsDefinitionInputFormLoading(true));
+
+    const response = await wordServices.addWord(word, definition);
+    // const response = {}
+    if (response.error) {
+      ToastAndroid.show('Adding word failed, please try again', 500);
+      dispatch(setIsDefinitionInputFormLoading(false));
+      return;
+    }
+
+    dispatch(
+      setCurrentDefinitions([{ word, definition }, ...currentDefinitions])
+    );
+    dispatch(setIsDefinitionInputFormLoading(false));
+  };
 }
 
-export const setIsDefinitionInputFormLoading = (isDefinitionInputFormLoading) =>({
-    type: SET_IS_DEFINITION_INPUT_FORM_LOADING,
-    payload: {
-        isDefinitionInputFormLoading
-    }
-})
+export const setIsDefinitionInputFormLoading = (
+  isDefinitionInputFormLoading
+) => ({
+  type: SET_IS_DEFINITION_INPUT_FORM_LOADING,
+  payload: {
+    isDefinitionInputFormLoading,
+  },
+});
