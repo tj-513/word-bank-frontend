@@ -41,7 +41,7 @@ export default function WordInputForm({
   return (
     <View style={styles.wordInputFormContainer}>
       <Formik
-        initialValues={{ word: '', definition: '', sampleSentence: '' }}
+        initialValues={{ word: '', definition: '', sampleSentence: undefined }}
         onSubmit={handleSubmitWord}
         validationSchema={wordSchema}
       >

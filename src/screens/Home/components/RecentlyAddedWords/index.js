@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import styles from './styles';
 
 const RecentlyAddedWords = ({ currentDefinitions }) => {
@@ -15,9 +16,9 @@ const RecentlyAddedWords = ({ currentDefinitions }) => {
           <View style={styles.recentlyAddedWord}>
             <Text style={styles.word}>{item.word}</Text>
             <Text style={styles.definition}>{item.definition}</Text>
-            {item.sampleSentence && (
+            { !isEmpty(item.sampleSentence) && (
               <Text style={styles.sampleSentence}>
-                Eg:- {item.sampleSentence}
+                {`Eg:- ${item.sampleSentence}`}
               </Text>
             )}
           </View>
