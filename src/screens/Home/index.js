@@ -1,60 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import styles from './styles';
 import WordInputForm from './components/WordInputForm';
 import RecentlyAddedWords from './components/RecentlyAddedWords';
 import HomeHeader from './components/HomeHeader';
 import * as actions from './actions/actions';
 import { connect } from 'react-redux';
+import { render } from 'react-dom';
 
-export function Home({
-  currentDefinitions,
-  isDefinitionInputFormLoading,
-  onSubmitDefinition,
-}) {
-  const handleOnSubmitWord = (values) => {
+class Home extends React.Component {
+
+  componentDidMount(){
+    this.props.fetchRecentlyAddedWords();
+  }
+
+  handleOnSubmitWord = (values) => {
     const { word, definition, sampleSentence } = values;
-    onSubmitDefinition(word, definition, sampleSentence);
+    this.props.onSubmitDefinition(word, definition, sampleSentence);
   };
 
-  return (
-    <View style={styles.homeContainer}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-          <HomeHeader />
+  render() {
+    const { recentlyAddedWords, isDefinitionInputFormLoading, isRecentlyAddedWordsLoading } = this.props;
 
-          <WordInputForm
-            onSubmitWord={handleOnSubmitWord}
-            isDefinitionInputFormLoading={isDefinitionInputFormLoading}
-          />
-        </View>
-      </TouchableWithoutFeedback>
-      <RecentlyAddedWords currentDefinitions={currentDefinitions} />
-    </View>
-  );
+    return (
+      <View style={styles.homeContainer}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View>
+            <HomeHeader />
+
+            <WordInputForm
+              onSubmitWord={this.handleOnSubmitWord}
+              isDefinitionInputFormLoading={isDefinitionInputFormLoading}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+        <RecentlyAddedWords isRecentlyAddedWordsLoading={isRecentlyAddedWordsLoading}  recentlyAddedWords={recentlyAddedWords} />
+      </View>
+    );
+  }
 }
 
 Home.propTypes = {
-  currentDefinitions: PropTypes.array,
+  recentlyAddedWords: PropTypes.array,
 };
 
 Home.defaultProps = {
-  currentDefinitions: [],
+  recentlyAddedWords: [],
 };
 
 const mapStateToProps = (state) => ({
-  currentDefinitions: state.home.currentDefinitions,
+  recentlyAddedWords: state.home.recentlyAddedWords,
   isDefinitionInputFormLoading: state.home.isDefinitionInputFormLoading,
+  isRecentlyAddedWordsLoading: state.home.isRecentlyAddedWordsLoading
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmitDefinition: (word, definition, sampleSentence) =>
     dispatch(actions.onSubmitDefinition(word, definition, sampleSentence)),
+  fetchRecentlyAddedWords: () => dispatch(actions.fetchRecentlyAddedWords()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -33,3 +33,19 @@ export const getAllWords = async () => {
     };
   }
 };
+
+export const getWords = async ({sortBy, sortOrder, page, pageSize}) => {
+  try {
+    const result = await api.get('/words', {sortBy, sortOrder, page, pageSize});
+    const data = get(result, 'data.response.data', null);
+    if (!data) {
+      return { error: true, message: 'no data received' };
+    }
+    return result.data.response;
+  } catch (e) {
+    return {
+      error: true,
+      message: get(e, 'response.data', 'an error occurred'),
+    };
+  }
+}

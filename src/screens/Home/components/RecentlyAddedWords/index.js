@@ -1,17 +1,23 @@
 import React from 'react';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList, View, Text, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import styles from './styles';
 
-const RecentlyAddedWords = ({ currentDefinitions }) => {
+const RecentlyAddedWords = ({ recentlyAddedWords, isRecentlyAddedWordsLoading }) => {
+  if(isRecentlyAddedWordsLoading){
+    return (<View>
+      <Text style={styles.title}>Loading recently added words</Text>
+      <ActivityIndicator size="large" />
+    </View>)
+  }
   return (
     <View style={{flex:1}}>
-      {currentDefinitions.length > 0 && (
+      {recentlyAddedWords.length > 0 && (
         <Text style={styles.title}>Recently added words</Text>
       )}
       <FlatList
-        data={currentDefinitions || []}
+        data={recentlyAddedWords || []}
         renderItem={({ item }) => (
           <View style={styles.recentlyAddedWord}>
             <Text style={styles.word}>{item.word}</Text>
@@ -29,11 +35,11 @@ const RecentlyAddedWords = ({ currentDefinitions }) => {
 };
 
 RecentlyAddedWords.propTypes = {
-  currentDefinitions: PropTypes.array,
+  recentlyAddedWords: PropTypes.array,
 };
 
 RecentlyAddedWords.defaultProps = {
-  currentDefinitions: [],
+  recentlyAddedWords: [],
 };
 
 export default RecentlyAddedWords;
