@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import {ToastAndroid} from 'react-native';
 import * as actionTypes from './actionTypes';
 import * as wordService from '../../../services/wordService';
 
@@ -9,15 +10,14 @@ const setIsFetchWordsLoading = (isWordsLoading) => ({
 });
 
 const setIsFetchWordsLoadingError = (isWordsLoadingError) => ({
-    type: actionTypes.SET_IS_WORDS_LOADING_ERROR,
-    payload: { isWordsLoadingError },
-  });
-
-const setWords = (words) => ({
-    type: actionTypes.SET_WORDS,
-    payload: { words },
+  type: actionTypes.SET_IS_WORDS_LOADING_ERROR,
+  payload: { isWordsLoadingError },
 });
 
+const setWords = (words) => ({
+  type: actionTypes.SET_WORDS,
+  payload: { words },
+});
 
 // async actions
 export function fetchWords({
@@ -47,6 +47,21 @@ export function fetchWords({
       return;
     }
     dispatch(setWords([...currentWords, ...response.data]));
+    dispatch(setIsFetchWordsLoading(false));
+  };
+}
+// deleteWord
+export function onDeleteWord({ _id }) {
+  return async (dispatch, getState) => {
+    dispatch(setIsFetchWordsLoading(true));
+
+    const response = await wordService.deleteWord({_id});
+    if (response.error) {
+      ToastAndroid.show('Could not delete word', 500);
+      dispatch(setIsFetchWordsLoading(false));
+      return;
+    }
+    dispatch(fetchWords({}));
     dispatch(setIsFetchWordsLoading(false));
   };
 }

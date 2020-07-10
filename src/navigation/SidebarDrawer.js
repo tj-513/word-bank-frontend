@@ -103,11 +103,15 @@ function MyDrawer() {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name='Home' component={HomeStackScreen} />
+      <Drawer.Screen
+        name='Home'
+        component={HomeStackScreen}
+        options={{ unmountOnBlur: true }}
+      />
       <Drawer.Screen
         name='WordCollection'
         component={WordCollectionStackScreen}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
       />
       <Drawer.Screen name='WordGame' component={WordGameStackScreen} />
       <Drawer.Screen name='Settings' component={SettingsStackScreen} />

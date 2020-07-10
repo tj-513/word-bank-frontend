@@ -25,15 +25,12 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   deleteButton: {
-    alignSelf:'flex-start',
-    textAlign:'center',
-    alignItems:'center',
+    flexShrink: 1,
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end',
   },
-  deleteButtonIcon: {
-  },
-  wordInfo: {
-    flexGrow:1
-  },
+  deleteButtonIcon: {},
+  wordInfo: { flexBasis: '88%', paddingRight: 10 },
 });
 
 export default styles;

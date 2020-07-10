@@ -2,20 +2,23 @@ import React from 'react';
 import { View, FlatList } from 'react-native';
 import WordCard from '../WordCard';
 
-const renderWordCard = ({item}) => {
+const renderWordCard = (item, onDeleteWord) => {
   return (
-  <WordCard
-    word={item.word}
-    definition={item.definition}
-    sampleSentence={item.sampleSentence}
-  />
-)};
+    <WordCard
+      _id={item._id}
+      word={item.word}
+      definition={item.definition}
+      sampleSentence={item.sampleSentence}
+      onDeleteWord={onDeleteWord}
+    />
+  );
+};
 
-const WordList = ({ words }) => (
-  <View style={{flex:1, paddingTop: 10}}>
+const WordList = ({ words, onDeleteWord }) => (
+  <View style={{ flex: 1, paddingTop: 10 }}>
     <FlatList
       data={words}
-      renderItem={renderWordCard}
+      renderItem={({ item }) => renderWordCard(item, onDeleteWord)}
       keyExtractor={(word) => word._id}
     />
   </View>

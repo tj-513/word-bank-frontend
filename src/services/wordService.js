@@ -51,3 +51,19 @@ export const getWords = async ({ sortBy, sortOrder, page, pageSize }) => {
     };
   }
 };
+
+export const deleteWord = async ({_id}) => {
+  try {
+    const result = await api.delete(`/words/${_id}`);
+    const data = get(result, 'data.response', null);
+    if (!data) {
+      return { error: true, message: 'no data received' };
+    }
+    return data;
+  } catch (e) {
+    return {
+      error: true,
+      message: get(e, 'response.data', 'an error occurred'),
+    };
+  }
+};
