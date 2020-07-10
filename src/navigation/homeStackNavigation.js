@@ -9,7 +9,7 @@ const HomeStack = createStackNavigator();
 const HomeNavigation = ()=>(
     <HomeStack.Navigator>
         <HomeStack.Screen name="Home" component={Home} />
-        <HomeStack.Screen name="WordCollection" component={WordCollection} />
+        <HomeStack.Screen name="WordCollection" component={()=>WordCollection} />
     </HomeStack.Navigator>
 );
 

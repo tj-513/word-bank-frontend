@@ -107,6 +107,7 @@ function MyDrawer() {
       <Drawer.Screen
         name='WordCollection'
         component={WordCollectionStackScreen}
+        options={{unmountOnBlur:true}}
       />
       <Drawer.Screen name='WordGame' component={WordGameStackScreen} />
       <Drawer.Screen name='Settings' component={SettingsStackScreen} />
