@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const WordCard = ({ _id, word, definition, sampleSentence, onDeleteWord }) => {
   const handleOnDeletePressed = () => {
     Alert.alert(
-      'Delet word',
+      'Delete word',
       `Are you sure want to delete "${word}"`,
       [
         {

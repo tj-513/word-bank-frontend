@@ -8,12 +8,13 @@ const styles = StyleSheet.create({
     borderColor: '#BFBFBF',
     borderWidth: 1,
     padding: 4,
-    marginBottom: 2,
+    marginBottom: 5,
     marginLeft: 5,
     marginRight: 5,
   },
   wordText: {
     fontSize: 16,
+    fontWeight: 'bold'
   },
   definitionText: {
     fontSize: 14,

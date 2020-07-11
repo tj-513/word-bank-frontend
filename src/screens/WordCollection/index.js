@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from './actions/actions';
+import * as selectors from './selectors';
 import WordList from './components/WordList';
 import styles from './styles';
 
@@ -16,7 +17,7 @@ class WordCollection extends React.Component {
   }
 
   render() {
-    const { words, isWordsLoading, isWordsLoadingError, onDeleteWord } = this.props;
+    const { groupedWords, isWordsLoading, isWordsLoadingError, onDeleteWord } = this.props;
 
     if (isWordsLoading) {
       return (
@@ -40,14 +41,14 @@ class WordCollection extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={{ alignSelf: 'center' }}>My words collection</Text>
-        <WordList words={words} onDeleteWord={onDeleteWord} />
+        <WordList groupedWords={groupedWords} onDeleteWord={onDeleteWord} />
       </SafeAreaView>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  words: state.wordCollection.words,
+  groupedWords: selectors.getWordsGroupedByDate(state),
   isWordsLoading: state.wordCollection.isWordsLoading,
   isWordsLoadingError: state.wordCollection.isWordsLoadingError,
 });

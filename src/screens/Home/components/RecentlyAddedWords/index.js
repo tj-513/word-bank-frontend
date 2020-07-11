@@ -18,6 +18,7 @@ const RecentlyAddedWords = ({ recentlyAddedWords, isRecentlyAddedWordsLoading })
       )}
       <FlatList
         data={recentlyAddedWords || []}
+        keyExtractor={ (item)=>item._id}
         renderItem={({ item }) => (
           <View style={styles.recentlyAddedWord}>
             <Text style={styles.word}>{item.word}</Text>
