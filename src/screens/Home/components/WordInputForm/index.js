@@ -1,18 +1,20 @@
 import React from 'react';
 import { Alert, Button, TextInput, View, Text, Linking } from 'react-native';
 import { Formik } from 'formik';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as yup from 'yup';
 import styles from './styles';
 
 const wordSchema = yup.object({
   word: yup.string().required(),
   definition: yup.string().required(),
+  sampleSentence: yup.string()
 });
 
 const handleOnPressLookupButton = async (props) => {
   const url = `https://www.dictionary.com/browse/${props.values.word}`;
   const canOpen = Linking.canOpenURL(url);
-  if (canOpen) {
+  if (canOpen && props.values.word) {
     try {
       await Linking.openURL(url);
     } catch (e) {
@@ -21,7 +23,10 @@ const handleOnPressLookupButton = async (props) => {
   }
 };
 
-export default function WordInputForm({ onSubmitWord, isDefinitionInputFormLoading }) {
+export default function WordInputForm({
+  onSubmitWord,
+  isDefinitionInputFormLoading,
+}) {
   const handleSubmitWord = (values, actions) => {
     const { word, definition } = values;
 
@@ -36,7 +41,7 @@ export default function WordInputForm({ onSubmitWord, isDefinitionInputFormLoadi
   return (
     <View style={styles.wordInputFormContainer}>
       <Formik
-        initialValues={{ word: '', definition: '' }}
+        initialValues={{ word: '', definition: '', sampleSentence: undefined }}
         onSubmit={handleSubmitWord}
         validationSchema={wordSchema}
       >
@@ -45,30 +50,54 @@ export default function WordInputForm({ onSubmitWord, isDefinitionInputFormLoadi
             <View style={styles.wordInput}>
               <TextInput
                 placeholder='Word here'
-                style={{...styles.textInput, ...styles.wordInput}}
+                style={styles.wordTextInput}
                 onChangeText={props.handleChange('word')}
                 value={props.values.word}
                 onBlur={props.handleBlur('word')}
               />
-              <Button title='Look Up' style={styles.lookupButton} onPress={()=>handleOnPressLookupButton(props)} />
+              <View style={styles.lookupButtonContainer}>
+                <Icon.Button
+                  name='ios-search'
+                  style={styles.lookupButton}
+                  onPress={() => handleOnPressLookupButton(props)}
+                >
+                  Look Up
+                </Icon.Button>
+              </View>
             </View>
             {props.touched.word && props.errors.word && (
-              <Text>{props.errors.word}</Text>
+              <Text style={styles.errorText}>{props.errors.word}</Text>
             )}
 
             <TextInput
               multiline
               placeholder='Definition here'
-              style={styles.textInput}
+              style={styles.definitionTextInput}
               onChangeText={props.handleChange('definition')}
               value={props.values.definition}
               onBlur={props.handleBlur('definition')}
             />
             {props.touched.definition && props.errors.definition && (
-              <Text>{props.errors.definition}</Text>
+              <Text style={styles.errorText}>{props.errors.definition}</Text>
             )}
 
-            <Button title='Add word' disabled={isDefinitionInputFormLoading} onPress={props.handleSubmit} />
+            <TextInput
+              multiline
+              placeholder='Sample sentence(s) (Optional)'
+              style={styles.definitionTextInput}
+              onChangeText={props.handleChange('sampleSentence')}
+              value={props.values.sampleSentence}
+              onBlur={props.handleBlur('sampleSentence')}
+            />
+            {props.touched.sampleSentence && props.errors.sampleSentence && (
+              <Text style={styles.errorText}>{props.errors.sampleSentence}</Text>
+            )}
+
+            <Button
+              title='Add word'
+              disabled={isDefinitionInputFormLoading || !props.isValid}
+              onPress={props.handleSubmit}
+            />
           </View>
         )}
       </Formik>

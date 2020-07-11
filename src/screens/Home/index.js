@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text,
-  Image,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
 import styles from './styles';
 import WordInputForm from './components/WordInputForm';
+import RecentlyAddedWords from './components/RecentlyAddedWords';
+import HomeHeader from './components/HomeHeader';
 import * as actions from './actions/actions';
 import { connect } from 'react-redux';
 
@@ -19,53 +18,24 @@ export function Home({
   onSubmitDefinition,
 }) {
   const handleOnSubmitWord = (values) => {
-    const { word, definition } = values;
-    onSubmitDefinition(word, definition);
+    const { word, definition, sampleSentence } = values;
+    onSubmitDefinition(word, definition, sampleSentence);
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.homeContainer}>
-        <Text style={{ textAlign: 'center', fontSize: 14, fontWeight: '600' }}>
-          Word Bank
-        </Text>
+    <View style={styles.homeContainer}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
-          <Text style={{ textAlign: 'center' }}>Your repo for words</Text>
-          <Image
-            source={{ uri: 'https://reactnative.dev/docs/assets/p_cat2.png' }}
-            style={{ width: 100, height: 100, alignSelf: 'center' }}
+          <HomeHeader />
+
+          <WordInputForm
+            onSubmitWord={handleOnSubmitWord}
+            isDefinitionInputFormLoading={isDefinitionInputFormLoading}
           />
         </View>
-
-        <WordInputForm
-          onSubmitWord={handleOnSubmitWord}
-          isDefinitionInputFormLoading={isDefinitionInputFormLoading}
-        />
-        <Text>Recently added words</Text>
-        <FlatList
-          data={currentDefinitions || []}
-          renderItem={({ item }) => (
-            <View>
-              <Text
-                style={{
-                  fontSize: 18,
-                }}
-              >
-                {item.word}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  paddingLeft: 10,
-                }}
-              >
-                {item.definition}
-              </Text>
-            </View>
-          )}
-        ></FlatList>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+      <RecentlyAddedWords currentDefinitions={currentDefinitions} />
+    </View>
   );
 }
 
@@ -83,8 +53,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmitDefinition: (word, definition) =>
-    dispatch(actions.onSubmitDefinition(word, definition)),
+  onSubmitDefinition: (word, definition, sampleSentence) =>
+    dispatch(actions.onSubmitDefinition(word, definition, sampleSentence)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
