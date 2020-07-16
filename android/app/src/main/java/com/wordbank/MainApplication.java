@@ -56,6 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
       if (BuildConfig.DEBUG) {
         return super.getJSBundleFile();
       } else {
+        UpdatesController.initialize(this.getApplication().getApplicationContext());
         return UpdatesController.getInstance().getLaunchAssetFile();
       }
     }
@@ -65,6 +66,7 @@ public class MainApplication extends Application implements ReactApplication {
       if (BuildConfig.DEBUG) {
         return super.getBundleAssetName();
       } else {
+        UpdatesController.initialize(this.getApplication().getApplicationContext());
         return UpdatesController.getInstance().getBundleAssetName();
       }
     }
@@ -84,6 +86,7 @@ public class MainApplication extends Application implements ReactApplication {
     if (!BuildConfig.DEBUG) {
       UpdatesController.initialize(this);
     }
+    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 
   /**
