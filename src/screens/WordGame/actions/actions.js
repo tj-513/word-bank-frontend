@@ -61,14 +61,27 @@ export function onPressOption(option) {
   };
 }
 
+export function onPressRetry() {
+  return (dispatch)=>{
+    dispatch(setCurrentStage('LOADING'));
+    dispatch(fetchInitialWordsForGame());
+  }
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 // async actions
 export function fetchInitialWordsForGame() {
   return async (dispatch) => {
+    dispatch(setCurrentStage('LOADING'));
     dispatch(setIsInitialDataLoading(true));
     dispatch(setIsInitialDataLoadingError(false));
+    
+    //reset previous states
+    dispatch(setGameData([]));
+    dispatch(setResult([]));
+    dispatch(setCurrentIndex(0));
 
     const response = await wordService.getWordsForGame();
     if (response.error) {

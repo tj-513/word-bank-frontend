@@ -5,6 +5,7 @@ import * as actions from './actions/actions';
 import GameLoader from './components/GameLoader';
 import GameStart from './components/GameStart';
 import Question from './components/Question';
+import Result from './components/Result';
 import styles from './styles';
 
 class WordGame extends Component {
@@ -20,7 +21,7 @@ class WordGame extends Component {
       currentStage,
     } = this.props;
 
-    if (isInitialDataLoading) {
+    if (currentStage === 'LOADING' || isInitialDataLoading) {
       return (
         <View style={styles.container}>
           <GameLoader loaderMessage='Loading game... Please wait' />
@@ -40,6 +41,7 @@ class WordGame extends Component {
       <View style={styles.container}>
         {currentStage === 'START' && <GameStart />}
         {currentStage === 'IN_PROGRESS' && <Question />}
+        {currentStage === 'RESULT' && <Result />}
       </View>
     );
   }
