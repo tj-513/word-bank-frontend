@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import {ToastAndroid} from 'react-native';
 import * as actionTypes from './actionTypes';
-import * as wordService from '../../../services/wordService';
+import * as wordService from '../services/wordGameService';
 
 // sync actions
 const setIsInitialDataLoading = (isInitialDataLoading) => ({
@@ -28,9 +28,7 @@ export function fetchInitialWordsForGame() {
     dispatch(setIsInitialDataLoading(true));
     dispatch(setIsInitialDataLoadingError(false));
 
-    await sleep(2000);
-    const response = {error: false, data: []};
-    // const response = await wordService.getAllWords();
+    const response = await wordService.getWordsForGame();
     if (response.error) {
       dispatch(setIsInitialDataLoading(false));
       dispatch(setIsInitialDataLoadingError(true));
