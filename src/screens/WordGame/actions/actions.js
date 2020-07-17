@@ -26,6 +26,14 @@ const setCurrentStage = (currentStage) => ({
 });
 
 
+// handlers
+export function onPressGameStart() {
+  return async (dispatch) => {
+    dispatch(setCurrentStage('IN_PROGRESS'));
+  }
+}
+
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
