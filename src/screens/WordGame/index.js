@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import * as actions from './actions/actions';
 import GameLoader from './components/GameLoader';
 import GameStart from './components/GameStart';
+import Question from './components/Question';
 import styles from './styles';
 
 class WordGame extends Component {
@@ -38,6 +39,7 @@ class WordGame extends Component {
     return (
       <View style={styles.container}>
         {currentStage === 'START' && <GameStart />}
+        {currentStage === 'IN_PROGRESS' && <Question />}
       </View>
     );
   }

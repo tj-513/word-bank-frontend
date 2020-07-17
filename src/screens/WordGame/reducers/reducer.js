@@ -8,11 +8,17 @@ const wordGameReducer = (state = {}, action) => {
     case actionTypes.SET_IS_INITIAL_GAME_DATA_LOADING:
       return { ...state, isInitialDataLoading: payload.isInitialDataLoading };
     case actionTypes.SET_IS_INITIAL_GAME_DATA_LOADING_ERROR:
-      return { ...state, isInitialDataLoadingError: payload.isInitialDataLoadingError };
+      return {
+        ...state,
+        isInitialDataLoadingError: payload.isInitialDataLoadingError,
+      };
     case actionTypes.SET_CURRENT_STAGE:
       return { ...state, currentStage: payload.currentStage };
-  
-      default:
+    case actionTypes.SET_CURRENT_INDEX:
+      return { ...state, currentIndex: payload.currentIndex };
+    case actionTypes.SET_RESULT:
+      return { ...state, result: payload.result };
+    default:
       return state;
   }
 };
