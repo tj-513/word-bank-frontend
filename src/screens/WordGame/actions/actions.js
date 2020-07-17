@@ -19,6 +19,13 @@ const setGameData = (gameData) => ({
   payload: { gameData },
 });
 
+
+const setCurrentStage = (currentStage) => ({
+  type: actionTypes.SET_CURRENT_STAGE,
+  payload: { currentStage },
+});
+
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -36,20 +43,7 @@ export function fetchInitialWordsForGame() {
     }
     dispatch(setGameData(response.data));
     dispatch(setIsInitialDataLoading(false));
+    dispatch(setCurrentStage('START'));
   };
 }
-// deleteWord
-export function onDeleteWord({ _id }) {
-  return async (dispatch, getState) => {
-    dispatch(setIsFetchWordsLoading(true));
 
-    const response = await wordService.deleteWord({_id});
-    if (response.error) {
-      ToastAndroid.show('Could not delete word', 500);
-      dispatch(setIsFetchWordsLoading(false));
-      return;
-    }
-    dispatch(fetchWords({}));
-    dispatch(setIsFetchWordsLoading(false));
-  };
-}
