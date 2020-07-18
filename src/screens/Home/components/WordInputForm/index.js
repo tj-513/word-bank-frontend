@@ -1,5 +1,5 @@
-import React from 'react';
-import { Alert, Button, TextInput, View, Text, Linking } from 'react-native';
+import React, { useRef } from 'react';
+import { Alert, Button, TextInput, View, Text, Linking, Keyboard } from 'react-native';
 import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as yup from 'yup';
@@ -35,8 +35,11 @@ export default function WordInputForm({
     }
 
     onSubmitWord(values);
+    Keyboard.dismiss();
     actions.resetForm();
   };
+
+  const definitionRef = useRef();
 
   return (
     <View style={styles.wordInputFormContainer}>
@@ -50,6 +53,9 @@ export default function WordInputForm({
             <View style={styles.wordInput}>
               <TextInput
                 placeholder='Word here'
+                returnKeyType="next"
+                onSubmitEditing={() => { definitionRef.current.focus(); }}
+                blurOnSubmit={false}
                 style={styles.wordTextInput}
                 onChangeText={props.handleChange('word')}
                 value={props.values.word}
@@ -72,6 +78,7 @@ export default function WordInputForm({
             <TextInput
               multiline
               placeholder='Definition here'
+              ref={definitionRef}
               style={styles.definitionTextInput}
               onChangeText={props.handleChange('definition')}
               value={props.values.definition}
