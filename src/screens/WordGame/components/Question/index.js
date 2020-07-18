@@ -24,6 +24,13 @@ class Question extends Component {
               <Text style={styles.buttonTitleStyle}>{option}</Text>
             </TouchableOpacity>
           ))}
+          {/* skip button */}
+          <TouchableOpacity
+              onPress={() => onPressOption(null)}
+              style={styles.skipButton}
+            >
+              <Text style={styles.buttonTitleStyle}>skip</Text>
+            </TouchableOpacity>
         </View>
       </View>
     );

@@ -15,12 +15,22 @@ const styles = StyleSheet.create({
     borderWidth:1,
     borderRadius:5,
     marginBottom:5,
+    backgroundColor:'#dbfcff',
     textAlign: "center",
   },
   buttonTitleStyle:{
     textAlign:'center',
     fontSize:12,
-    fontWeight: '600'
+    fontWeight:'bold'
+  },
+  skipButton:{
+    marginTop: 20,
+    padding:10,
+    borderWidth:1,
+    borderRadius:5,
+    backgroundColor:'#fffef0',
+    textAlign: "center",
+    fontWeight:'bold',
   }
 });
 

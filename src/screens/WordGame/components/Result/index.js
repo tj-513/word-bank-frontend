@@ -9,7 +9,7 @@ import { FlatList } from 'react-native-gesture-handler';
 
 class Result extends Component {
   componentDidMount() {
-    const {sendResultToServer} = this.props;
+    const { sendResultToServer } = this.props;
     sendResultToServer();
   }
 
@@ -39,7 +39,9 @@ class Result extends Component {
           )}
         </View>
         <Button title="Let's do again!" onPress={onPressRetry} />
-        <Text style={styles.centeredText}> What went wrong </Text>
+        {correct !== total && (
+          <Text style={styles.centeredText}> What went wrong </Text>
+        )}
         <View style={styles.wrongWordsContainer}>
           <FlatList
             data={wrong || []}
