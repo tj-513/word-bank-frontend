@@ -4,6 +4,8 @@ const getWords = (state) => state.game.gameData;
 const getCurrentIndex = (state) => state.game.currentIndex;
 const getResult = (state) => state.game.result;
 
+export const getGameWordCount = createSelector(getWords, (words)=>words.length);
+
 export const getWordsForQuestionIndex = createSelector(
   getWords,
   getCurrentIndex,

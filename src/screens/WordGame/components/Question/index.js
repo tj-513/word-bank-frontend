@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import ProgressBar from './ProgressBar';
 import * as actions from '../../actions/actions';
 import * as selectors from '../../selectors';
 import styles from './styles';
@@ -13,6 +14,7 @@ class Question extends Component {
     } = this.props;
     return (
       <View>
+        <ProgressBar />
         <Text style={styles.title}>{word}</Text>
         <View style={styles.optionsContainer}>
           {options.map((option, index) => (

@@ -3,12 +3,13 @@ import { color } from 'react-native-reanimated';
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 20,
-    fontWeight: '600',
+    marginTop: 10,
+    fontSize: 25,
+    fontWeight: 'bold',
     alignSelf: 'center'
   },
   optionsContainer: {
-      paddingTop: 30,
+      paddingTop: 20,
   },
   option:{
     padding:10,
