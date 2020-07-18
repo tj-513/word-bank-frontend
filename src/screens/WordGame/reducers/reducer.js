@@ -18,6 +18,10 @@ const wordGameReducer = (state = {}, action) => {
       return { ...state, currentIndex: payload.currentIndex };
     case actionTypes.SET_RESULT:
       return { ...state, result: payload.result };
+    case actionTypes.SET_IS_SENDING_RESULT:
+      return { ...state, isSendingResult: payload.isSendingResult };
+    case actionTypes.SET_IS_SENDING_RESULT_SUCCESS:
+      return { ...state, isSendingResultSuccess: payload.isSendingResultSuccess };
     default:
       return state;
   }

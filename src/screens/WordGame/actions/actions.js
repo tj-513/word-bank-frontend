@@ -1,8 +1,8 @@
 import * as actionTypes from './actionTypes';
 import * as selectors from '../selectors';
-import * as wordService from '../services/wordGameService';
+import * as wordGameService from '../services/wordGameService';
 
-// sync actions
+//#region  store updates
 const setIsInitialDataLoading = (isInitialDataLoading) => ({
   type: actionTypes.SET_IS_INITIAL_GAME_DATA_LOADING,
   payload: { isInitialDataLoading },
@@ -33,7 +33,19 @@ const setResult = (result) => ({
   payload: { result },
 });
 
-// handlers
+const setIsSendingResult = (isSendingResult) => ({
+  type: actionTypes.SET_IS_SENDING_RESULT,
+  payload: {isSendingResult}
+});
+
+const setIsSendingResultSuccess = (isSendingResultSuccess) => ({
+  type: actionTypes.SET_IS_SENDING_RESULT_SUCCESS,
+  payload: {isSendingResultSuccess}
+});
+
+//#endregion
+
+//#region  handlers
 export function onPressGameStart() {
   return async (dispatch) => {
     dispatch(setCurrentIndex(0));
@@ -43,13 +55,13 @@ export function onPressGameStart() {
 
 export function onPressOption(option) {
   return async (dispatch, getState) => {
-    const { correct } = selectors.getWordsForQuestionIndex(getState());
+    const { correct, _id } = selectors.getWordsForQuestionIndex(getState());
     const { currentIndex, result = [] } = getState().game;
 
     if (option === correct) {
-      dispatch(setResult([...result, { correct: true }]));
+      dispatch(setResult([...result, { _id, correct: true }]));
     } else {
-      dispatch(setResult([...result, { correct: false }]));
+      dispatch(setResult([...result, { _id, correct: false }]));
     }
 
     // received the answer of last question
@@ -68,10 +80,9 @@ export function onPressRetry() {
   }
 }
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-// async actions
+//#endregion
+
+//#region async network 
 export function fetchInitialWordsForGame() {
   return async (dispatch) => {
     dispatch(setCurrentStage('LOADING'));
@@ -83,7 +94,7 @@ export function fetchInitialWordsForGame() {
     dispatch(setResult([]));
     dispatch(setCurrentIndex(0));
 
-    const response = await wordService.getWordsForGame();
+    const response = await wordGameService.getWordsForGame();
     if (response.error) {
       dispatch(setIsInitialDataLoading(false));
       dispatch(setIsInitialDataLoadingError(true));
@@ -94,3 +105,22 @@ export function fetchInitialWordsForGame() {
     dispatch(setCurrentStage('START'));
   };
 }
+
+export function sendGameResultToServer() {
+  return async (dispatch, getState) => {
+    dispatch(setIsSendingResult(true));
+    const {result} = getState().game;
+    const resultObj = {gameResult: result};
+    const response = await wordGameService.sendGameResultsToServer(resultObj);
+
+    dispatch(setIsSendingResult(false));
+
+    if(response.error){
+      dispatch(setIsSendingResultSuccess(false));
+      return;
+    }
+    dispatch(setIsSendingResultSuccess(true));
+  }
+}
+
+//#endregion 
